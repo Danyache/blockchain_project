@@ -85,6 +85,7 @@ async def process_help_command(message: types.Message):
 @dp.message_handler(commands=['fast_pow'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
+    text = text[8:]
     s = text.split()
     if len(s) == 2:
         a, b = s
