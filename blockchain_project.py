@@ -86,6 +86,7 @@ async def process_help_command(message: types.Message):
 async def process_help_command(message: types.Message):
     text = message.text
     text = text[8:]
+    await bot.send_message(message.from_user.id, text)
     s = text.split()
     if len(s) == 2:
         a, b = s
