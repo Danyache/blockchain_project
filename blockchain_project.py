@@ -94,6 +94,7 @@ def find_inverse(x,y):
     if inv < 1: inv += y
     return inv
 
+"""
 def egcd(a, b):
     if (a == 0):
         return (b, 0, 1)
@@ -214,12 +215,7 @@ async def process_help_command(message: types.Message):
 
     result = rsa_check(p, h, g, m)
     await bot.send_message(message.from_user.id, str(result))
-
-    
-
-
-
-
+"""
 
 @dp.message_handler(commands=['start'], commands_prefix='!/')
 async def process_start_command(message: types.Message):
@@ -234,13 +230,13 @@ async def process_help_command(message: types.Message):
                         /euler -- нахожу значение функции Эйлера для заданного числа \n \
                         /crt -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
                         /find_inverse -- обобщенный алгоритм евклида \n \
-                        /rsa_gen_keys -- сгенерировать ключи \n \
-                        /rsa_encrypt -- encrypt message \n \
-                        /rsa_decrypt -- decrypt message \n \
-                        /rsa_sign -- create sign \n \
-                        /rsa_check -- check sign \n \
                         ")
 
+# /rsa_gen_keys -- сгенерировать ключи \n \
+#                         /rsa_encrypt -- encrypt message \n \
+#                         /rsa_decrypt -- decrypt message \n \
+#                         /rsa_sign -- create sign \n \
+#                         /rsa_check -- check sign \n \
 
 @dp.message_handler(commands=['fast_pow'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
