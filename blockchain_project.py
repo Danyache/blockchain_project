@@ -4,6 +4,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 import requests
 import re
+from random import randint
 from functools import reduce
 
 last_film = {}
@@ -93,6 +94,130 @@ def find_inverse(x,y):
     if inv < 1: inv += y
     return inv
 
+def egcd(a, b):
+    if (a == 0):
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def is_prime(num, test_count):
+    if num == 1:
+        return False
+    if test_count >= num:
+        test_count = num - 1
+    for x in range(test_count):
+        val = randint(1, num - 1)
+        if pow(val, num-1, num) != 1:
+            return False
+    return True
+
+def generate_big_prime(n, test_count=1000):
+    found_prime = False
+    while not found_prime:
+        p = randint(2**(n-1), 2**n)
+        if is_prime(p, test_count):
+            return p
+        
+def generate_modulo(bitlen, tc=1000):       
+    p = generate_big_prime(bitlen//2, tc)                          
+    q = 1
+    n = p * q  
+    while (math.ceil(math.log(n, 2)) != bitlen):
+        q = generate_big_prime(bitlen - bitlen//2, tc)
+        n = p * q
+
+    return  n, (p-1)*(q-1)
+
+def rsa_generate_keys(bitlen, tc=1000):
+    n, phi = generate_modulo(bitlen, tc)
+    k = bitlen//randint(2, 4)
+    e = randint( 2**(k-1), 2**k )
+    g, x, y = egcd(e, phi)
+    d = x % phi
+    while (g != 1):
+        e = randint( 2**(k-1), 2**k )
+        g, x, y = egcd(e, phi)
+        d = x % phi
+    return (n, d), (n, e)
+
+def rsa_encrypt(public_key, message, modulo):
+    return fast_pow(message, public_key, modulo)
+
+def rsa_decrypt(private_key, message, modulo):
+    return fast_pow(message, private_key, modulo)
+
+def rsa_sign(private_key, h, modulo):
+    '''
+    h - hash
+    '''
+    return fast_pow(h, private_key, modulo)
+
+def rsa_check(public_key, h, g, modulo):
+    '''
+    h - received hash value
+    g - computed hash value
+    '''
+    return fast_pow(h, public_key, modulo) == g
+
+@dp.message_handler(commands=['rsa_gen_keys'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[13:]
+    s = text.split()
+    bitlen = int(s[0])
+    result = rsa_generate_keys(bitlen)
+    await bot.send_message(message.from_user.id, 'Private key is {}'.format(result[0]))
+    await bot.send_message(message.from_user.id, 'Public key is {}'.format(result[1]))
+
+@dp.message_handler(commands=['rsa_encrypt'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[12:]
+    s = text.split()
+    pub, message, mod = s
+    pub, message, mod = int(pub), int(message), int(mod)
+
+    result = rsa_encrypt(pub, message, mod)
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['rsa_decrypt'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[12:]
+    s = text.split()
+    priv, message, mod = s
+    priv, message, mod = int(priv), int(message), int(mod)
+
+    result = rsa_decrypt(priv, message, mod)
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['rsa_sign'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[9:]
+    s = text.split()
+    p, h, m = s
+    p, h, m = int(p), int(h), int(m)
+
+    result = rsa_sign(p, h, m)
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['rsa_check'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[10:]
+    s = text.split()
+    p, h, g, m = s
+    p, h, g, m = int(p), int(h), int(g), int(m)
+
+    result = rsa_check(p, h, g, m)
+    await bot.send_message(message.from_user.id, str(result))
+
+    
+
+
+
 
 
 @dp.message_handler(commands=['start'], commands_prefix='!/')
@@ -108,6 +233,11 @@ async def process_help_command(message: types.Message):
                         /euler -- нахожу значение функции Эйлера для заданного числа \n \
                         /crt -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
                         /find_inverse -- обобщенный алгоритм евклида \n \
+                        /rsa_gen_keys -- сгенерировать ключи \n \
+                        /rsa_encrypt -- encrypt message \n \
+                        /rsa_decrypt -- decrypt message \n \
+                        /rsa_sign -- create sign \n \
+                        /rsa_check -- check sign \n \
                         ")
 
 
