@@ -96,6 +96,11 @@ async def process_help_command(message: types.Message):
         result = fast_pow(a, b, m)
     await bot.send_message(message.from_user.id, result)
 
+@dp.message_handler(commands=['echo'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    await bot.send_message(message.from_user.id, text)
+
 
 @dp.message_handler()
 async def film_info(msg: types.Message):
