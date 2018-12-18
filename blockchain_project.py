@@ -160,7 +160,7 @@ def rsa_check(public_key, h, g, modulo):
     g - computed hash value
     '''
     return fast_pow(h, public_key, modulo) == g
-"""
+
 @dp.message_handler(commands=['rsa_gen_keys'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
@@ -215,7 +215,7 @@ async def process_help_command(message: types.Message):
 
     result = rsa_check(p, h, g, m)
     await bot.send_message(message.from_user.id, str(result))
-"""
+
 
 @dp.message_handler(commands=['start'], commands_prefix='!/')
 async def process_start_command(message: types.Message):
