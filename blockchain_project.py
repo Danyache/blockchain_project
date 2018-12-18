@@ -143,23 +143,23 @@ def rsa_generate_keys(bitlen, tc=1000):
     return (n, d), (n, e)
 
 def rsa_encrypt(public_key, message, modulo):
-    return fast_pow(message, public_key, modulo)
+    return pow(message, public_key, modulo)
 
 def rsa_decrypt(private_key, message, modulo):
-    return fast_pow(message, private_key, modulo)
+    return pow(message, private_key, modulo)
 
 def rsa_sign(private_key, h, modulo):
     '''
     h - hash
     '''
-    return fast_pow(h, private_key, modulo)
+    return pow(h, private_key, modulo)
 
 def rsa_check(public_key, h, g, modulo):
     '''
     h - received hash value
     g - computed hash value
     '''
-    return fast_pow(h, public_key, modulo) == g
+    return pow(h, public_key, modulo) == g
 
 @dp.message_handler(commands=['rsa_gen_keys'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
