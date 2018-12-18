@@ -1,1 +1,1 @@
-bot: python bot_virtual.py
+bot: python blockchain_project.py
