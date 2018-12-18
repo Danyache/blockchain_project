@@ -4,6 +4,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 import requests
 import re
+from functools import reduce
 
 last_film = {}
 imdb_links = {}
@@ -65,6 +66,33 @@ def discrete_log(a, b, p):
 
     return None
 
+def crt(n, a):
+    sum = 0
+    prod = reduce(lambda a, b: a*b, n)
+    for n_i, a_i in zip(n, a):
+        p = prod / n_i
+        sum += a_i * mul_inv(p, n_i) * p
+    return sum % prod
+
+def mul_inv(a, b):
+    b0 = b
+    x0, x1 = 0, 1
+    if b == 1: return 1
+    inv = eea(a,b)[0]
+    if inv < 1: inv += b
+    return inv
+
+def eea(a,b):
+    if b==0:return (1,0)
+    (q,r) = (a//b,a%b)
+    (s,t) = eea(b,r)
+    return (t, s-(q*t))
+
+def find_inverse(x,y):
+    inv = eea(x,y)[0]
+    if inv < 1: inv += y
+    return inv
+
 
 
 @dp.message_handler(commands=['start'], commands_prefix='!/')
@@ -78,6 +106,8 @@ async def process_help_command(message: types.Message):
                         /fast_pow -- возвожу число в степень методом fast powering \n \
                         /disc_log -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
                         /euler -- нахожу значение функции Эйлера для заданного числа \n \
+                        /crt -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
+                        /find_inverse -- обобщенный алгоритм евклида \n \
                         ")
 
 
@@ -113,6 +143,32 @@ async def process_help_command(message: types.Message):
     s = text.split()
     a = int(s[0])
     result = euler_function(a)
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['crt'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[4:]
+    s = text.split()
+    length = len(s)
+    n = []
+    a = []
+    for i in range(length/2):
+        n.append(int(s[i]))
+        a.append(int(s[i+(length/2)]))
+
+    result = crt(n, a)
+
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['find_inverse'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[13:]
+    s = text.split()
+    a, b = s
+    a, b = int(a), int(b)
+    result = find_inverse(a, b)
     await bot.send_message(message.from_user.id, result)
 
 @dp.message_handler(commands=['echo'], commands_prefix='!/')
