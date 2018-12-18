@@ -76,6 +76,8 @@ async def process_start_command(message: types.Message):
 async def process_help_command(message: types.Message):
     await bot.send_message(message.from_user.id, "Выдаю результаты некоторых функций \n \
                         /fast_pow -- возвожу число в степень методом fast powering \n \
+                        /disc_log -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
+                        /euler -- нахожу значение функции Эйлера для заданного числа \n \
                         ")
 
 
@@ -92,6 +94,25 @@ async def process_help_command(message: types.Message):
         a, b, m = s
         a, b, m = int(a), int(b), int(m)
         result = fast_pow(a, b, m)
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['disc_log'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[9:]
+    s = text.split()
+    a, b, p = s
+    a, b, p = int(a), int(b), int(p)
+    result = discrete_log(a, b, p)
+    await bot.send_message(message.from_user.id, result)
+
+@dp.message_handler(commands=['euler'], commands_prefix='!/')
+async def process_help_command(message: types.Message):
+    text = message.text
+    text = text[6:]
+    s = text.split()
+    a = int(s[0])
+    result = euler_function(a)
     await bot.send_message(message.from_user.id, result)
 
 @dp.message_handler(commands=['echo'], commands_prefix='!/')
