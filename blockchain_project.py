@@ -175,10 +175,11 @@ async def process_help_command(message: types.Message):
     text = message.text
     text = text[12:]
     s = text.split()
-    pub, message, mod = s
-    pub, message, mod = int(pub), int(message), int(mod)
-
-    result = rsa_encrypt(pub, message, mod)
+    
+    pub, m, mod = s
+    pub, m, mod = int(pub), int(m), int(mod)
+    
+    result = rsa_encrypt(pub, m, mod)
     await bot.send_message(message.from_user.id, result)
 
 @dp.message_handler(commands=['rsa_decrypt'], commands_prefix='!/')
@@ -186,10 +187,10 @@ async def process_help_command(message: types.Message):
     text = message.text
     text = text[12:]
     s = text.split()
-    priv, message, mod = s
-    priv, message, mod = int(priv), int(message), int(mod)
+    priv, m, mod = s
+    priv, m, mod = int(priv), int(m), int(mod)
 
-    result = rsa_decrypt(priv, message, mod)
+    result = rsa_decrypt(priv, m, mod)
     await bot.send_message(message.from_user.id, result)
 
 @dp.message_handler(commands=['rsa_sign'], commands_prefix='!/')
