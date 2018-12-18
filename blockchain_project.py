@@ -230,13 +230,14 @@ async def process_help_command(message: types.Message):
                         /euler -- нахожу значение функции Эйлера для заданного числа \n \
                         /crt -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
                         /find_inverse -- обобщенный алгоритм евклида \n \
+                        /rsa_gen_keys -- сгенерировать ключи \n \
+                        /rsa_encrypt -- encrypt message \n \
+                        /rsa_decrypt -- decrypt message \n \
+                        /rsa_sign -- create sign \n \
+                        /rsa_check -- check sign \n \
                         ")
 
-# /rsa_gen_keys -- сгенерировать ключи \n \
-#                         /rsa_encrypt -- encrypt message \n \
-#                         /rsa_decrypt -- decrypt message \n \
-#                         /rsa_sign -- create sign \n \
-#                         /rsa_check -- check sign \n \
+
 
 @dp.message_handler(commands=['fast_pow'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
