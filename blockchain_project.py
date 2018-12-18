@@ -75,18 +75,14 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands=['help'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     await bot.send_message(message.from_user.id, "Выдаю результаты некоторых функций \n \
-                        /poster -- постер данного фильма \n \
-                        /watch -- еще места, где посмотреть фильм \n \
-                        /rating -- рейтинг фильма по версии imdb \n \
-                        /wiki -- данный фильм на википедии \n \
-                        /imdb -- данный фильм на imdb")
+                        /fast_pow -- возвожу число в степень методом fast powering \n \
+                        ")
 
 
 @dp.message_handler(commands=['fast_pow'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
-    text = text[8:]
-    await bot.send_message(message.from_user.id, text)
+    text = text[9:]
     s = text.split()
     if len(s) == 2:
         a, b = s
