@@ -154,9 +154,9 @@ async def process_help_command(message: types.Message):
     n = []
     a = []
     await bot.send_message(message.from_user.id, text)
-    for i in range(length/2):
+    for i in range(int(length/2)):
         n.append(int(s[i]))
-        a.append(int(s[i+(length/2)]))
+        a.append(int(s[i+int(length/2)]))
 
     await bot.send_message(message.from_user.id, str(n))
     await bot.send_message(message.from_user.id, str(a))
