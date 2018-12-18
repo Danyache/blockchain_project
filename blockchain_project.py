@@ -94,7 +94,7 @@ def find_inverse(x,y):
     if inv < 1: inv += y
     return inv
 
-"""
+
 def egcd(a, b):
     if (a == 0):
         return (b, 0, 1)
@@ -215,7 +215,7 @@ async def process_help_command(message: types.Message):
 
     result = rsa_check(p, h, g, m)
     await bot.send_message(message.from_user.id, str(result))
-"""
+
 
 @dp.message_handler(commands=['start'], commands_prefix='!/')
 async def process_start_command(message: types.Message):
