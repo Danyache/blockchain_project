@@ -257,6 +257,10 @@ def rsa_check(public_key, h, g, modulo):
     '''
     return fast_pow(h, public_key, modulo) == g
 
+""" 
+Дальше идут команды для бота
+"""
+
 @dp.message_handler(commands=['rsa_gen_keys'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
@@ -324,17 +328,17 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands=['help'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     await bot.send_message(message.from_user.id, "Выдаю результаты некоторых функций \n \
-                        /fast_pow -- возвожу число в степень методом fast powering \n \
-                        /disc_log -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
-                        /euler -- нахожу значение функции Эйлера для заданного числа \n \
-                        /crt -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
-                        /find_inverse -- обобщенный алгоритм евклида \n \
-                        /rsa_gen_keys -- сгенерировать ключи \n \
-                        /rsa_encrypt -- encrypt message \n \
-                        /rsa_decrypt -- decrypt message \n \
-                        /rsa_sign -- create sign \n \
-                        /rsa_check -- check sign \n \
-                        ")
+                /fast_pow(x, n, mod=None) -- возвожу число в степень методом fast powering \n \
+                /disc_log(a, b, p) -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
+                /euler(x) -- нахожу значение функции Эйлера для заданного числа \n \
+                /crt(array_x, array_n) -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
+                /find_inverse(x, mod) -- обобщенный алгоритм евклида \n \
+                /rsa_gen_keys(bitlen) -- сгенерировать ключи \n \
+                /rsa_encrypt(e, message, n) -- encrypt message \n \
+                /rsa_decrypt(d, message, n) -- decrypt message \n \
+                /rsa_sign(d, h, n) -- create sign \n \
+                /rsa_check(e, h, g, n) -- check sign \n \
+                ")
 
 
 
