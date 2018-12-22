@@ -161,8 +161,6 @@ def rsa_check(public_key, h, g, modulo):
     '''
     return pow(h, public_key, modulo) == g
 """
-import math
-from random import randint
 
 def fast_pow(x, n, mod=0):
     if n < 0:
@@ -229,15 +227,15 @@ def rsa_generate_keys(bitlen, tc=1000):
     private_key: (modulo, exponent), public_key: (modulo, exponent)
     
     '''
-    n, phi = generate_modulo(bitlen, tc)
-    k = randint(bitlen//12, bitlen//20)
-    e = 2**k + 2 * randint( 2**(k//8), 2**(k//4) ) + 1 # a common convention to generate public exponent first
-    g, x, y = egcd(e, phi)
-    d = x % phi
-    while (g != 1):
-        e = 2**k + 2 * randint( 2**(k//8), 2**(k//4) ) + 1
-        g, x, y = egcd(e, phi)
-        d = x % phi
+    p1 = generate_big_prime(bitlen, tc)
+    p2 = generate_big_prime(bitlen, tc)
+    n = p1 * p2
+    phi = (p1 - 1)(p2 - 1)
+    for i in range(3, phi):
+        if gcd(i, phi) == 1:
+            e = i
+            break
+    d = find_inverse(e, phi)
     return (n, d), (n, e)
 
 def rsa_encrypt(public_key, message, modulo):
