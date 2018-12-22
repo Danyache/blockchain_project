@@ -260,8 +260,9 @@ async def process_start_command(message: types.Message):
 
 @dp.message_handler(commands=['help'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
-    await bot.send_message(message.from_user.id, "Выдаю результаты некоторых функций \n \
-        Все аргементы данных функций вводятся после команды подряд через пробел \
+    await bot.send_message(message.from_user.id, "\
+        Выдаю результаты некоторых функций \n \
+        Все аргементы данных функций вводятся после команды подряд через пробел \n \
         /fast_pow(x, n, mod=None) -- возвожу число в степень методом fast powering \n \
         /disc_log(a, b, p) -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
         /euler(x) -- нахожу значение функции Эйлера для заданного числа \n \
@@ -271,8 +272,7 @@ async def process_help_command(message: types.Message):
         /rsa_encrypt(e, message, n) -- encrypt message \n \
         /rsa_decrypt(d, message, n) -- decrypt message \n \
         /rsa_sign(d, h, n) -- create sign \n \
-        /rsa_check(e, h, g, n) -- check sign \n \
-                ")
+        /rsa_check(e, h, g, n) -- check sign \n ")
 
 
 
