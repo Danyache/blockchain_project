@@ -94,73 +94,6 @@ def find_inverse(x,y):
     if inv < 1: inv += y
     return inv
 
-"""
-def egcd(a, b):
-    if (a == 0):
-        return (b, 0, 1)
-    else:
-        g, y, x = egcd(b % a, a)
-        return (g, x - (b // a) * y, y)
-
-def is_prime(num, test_count):
-    if num == 1:
-        return False
-    if test_count >= num:
-        test_count = num - 1
-    for x in range(test_count):
-        val = randint(1, num - 1)
-        if pow(val, num-1, num) != 1:
-            return False
-    return True
-
-def generate_big_prime(n, test_count=1000):
-    found_prime = False
-    while not found_prime:
-        p = randint(2**(n-1), 2**n)
-        if is_prime(p, test_count):
-            return p
-        
-def generate_modulo(bitlen, tc=1000):       
-    p = generate_big_prime(bitlen//2, tc)                          
-    q = 1
-    n = p * q  
-    while (math.ceil(math.log(n, 2)) != bitlen):
-        q = generate_big_prime(bitlen - bitlen//2, tc)
-        n = p * q
-
-    return  n, (p-1)*(q-1)
-
-def rsa_generate_keys(bitlen, tc=1000):
-    n, phi = generate_modulo(bitlen, tc)
-    k = bitlen//randint(2, 4)
-    e = randint( 2**(k-1), 2**k )
-    g, x, y = egcd(e, phi)
-    d = x % phi
-    while (g != 1):
-        e = randint( 2**(k-1), 2**k )
-        g, x, y = egcd(e, phi)
-        d = x % phi
-    return (n, d), (n, e)
-
-def rsa_encrypt(public_key, message, modulo):
-    return pow(message, public_key, modulo)
-
-def rsa_decrypt(private_key, message, modulo):
-    return pow(message, private_key, modulo)
-
-def rsa_sign(private_key, h, modulo):
-    '''
-    h - hash
-    '''
-    return pow(h, private_key, modulo)
-
-def rsa_check(public_key, h, g, modulo):
-    '''
-    h - received hash value
-    g - computed hash value
-    '''
-    return pow(h, public_key, modulo) == g
-"""
 
 def fast_pow(x, n, mod=0):
     if n < 0:
@@ -328,16 +261,17 @@ async def process_start_command(message: types.Message):
 @dp.message_handler(commands=['help'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     await bot.send_message(message.from_user.id, "Выдаю результаты некоторых функций \n \
-                /fast_pow(x, n, mod=None) -- возвожу число в степень методом fast powering \n \
-                /disc_log(a, b, p) -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
-                /euler(x) -- нахожу значение функции Эйлера для заданного числа \n \
-                /crt(array_x, array_n) -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
-                /find_inverse(x, mod) -- обобщенный алгоритм евклида \n \
-                /rsa_gen_keys(bitlen) -- сгенерировать ключи \n \
-                /rsa_encrypt(e, message, n) -- encrypt message \n \
-                /rsa_decrypt(d, message, n) -- decrypt message \n \
-                /rsa_sign(d, h, n) -- create sign \n \
-                /rsa_check(e, h, g, n) -- check sign \n \
+        Все аргементы данных функций вводятся после команды подряд через пробел \
+        /fast_pow(x, n, mod=None) -- возвожу число в степень методом fast powering \n \
+        /disc_log(a, b, p) -- нахожу логарифм для двух чисел в поле вычетов простого числа p \n \
+        /euler(x) -- нахожу значение функции Эйлера для заданного числа \n \
+        /crt(array_x, array_n) -- решаю задачу китайской теоремы об остатках (первый и второй массивы вводятся подряд через пробел) \n \
+        /find_inverse(x, mod) -- обобщенный алгоритм евклида \n \
+        /rsa_gen_keys(bitlen) -- сгенерировать ключи \n \
+        /rsa_encrypt(e, message, n) -- encrypt message \n \
+        /rsa_decrypt(d, message, n) -- decrypt message \n \
+        /rsa_sign(d, h, n) -- create sign \n \
+        /rsa_check(e, h, g, n) -- check sign \n \
                 ")
 
 
