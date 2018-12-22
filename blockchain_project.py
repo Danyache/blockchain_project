@@ -264,7 +264,9 @@ async def process_help_command(message: types.Message):
     s = text.split()
     await bot.send_message(message.from_user.id, str(s))
     bitlen = int(s[0])
+    await bot.send_message(message.from_user.id, bitlen)
     result = rsa_generate_keys(bitlen)
+    await bot.send_message(message.from_user.id, result)
     await bot.send_message(message.from_user.id, 'Private key is {}'.format(result[0]))
     await bot.send_message(message.from_user.id, 'Public key is {}'.format(result[1]))
 
