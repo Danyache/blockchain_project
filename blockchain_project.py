@@ -6,6 +6,7 @@ import requests
 import re
 from random import randint
 from functools import reduce
+import random
 
 last_film = {}
 imdb_links = {}
