@@ -1,7 +1,7 @@
 import math
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
-from aigram.utils import executor
+from aiogram.utils import executor
 import requests
 import re
 from random import randint
