@@ -193,7 +193,7 @@ def rsa_check(public_key, h, g, modulo):
 """ 
 Дальше идут команды для бота
 """
-
+"""
 @dp.message_handler(commands=['rsa_gen_keys'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
@@ -226,7 +226,7 @@ async def process_help_command(message: types.Message):
     
     await bot.send_message(message.from_user.id, 'Private key is {}'.format(result[0]))
     await bot.send_message(message.from_user.id, 'Public key is {}'.format(result[1]))
-
+""" 
 @dp.message_handler(commands=['rsa_encrypt'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
@@ -320,7 +320,7 @@ async def process_help_command(message: types.Message):
     a, b, p = int(a), int(b), int(p)
     result = discrete_log(a, b, p)
     await bot.send_message(message.from_user.id, result)
-
+"""
 @dp.message_handler(commands=['euler'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
@@ -334,7 +334,7 @@ async def process_help_command(message: types.Message):
             await bot.send_message(message.from_user.id, 'One more number is {}'.format(_))
             num += 1
     await bot.send_message(message.from_user.id, 'Total amount is {}'.format(num))
-
+"""
 @dp.message_handler(commands=['crt'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
     text = message.text
