@@ -1,7 +1,7 @@
 import math
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
-from aiogram.utils import executor
+from aigram.utils import executor
 import requests
 import re
 from random import randint
@@ -201,8 +201,28 @@ async def process_help_command(message: types.Message):
     s = text.split()
     
     bitlen = int(s[0])
+    tc = 1000
+
+    p1 = generate_big_prime(bitlen, tc)
+    p2 = generate_big_prime(bitlen, tc)
+    await bot.send_message(message.from_user.id, 'First generated prime is {}'.format(p1))
+    await bot.send_message(message.from_user.id, 'Second generated prime is {}'.format(p2))
+    n = p1 * p2
+    phi = (p1 - 1)*(p2 - 1)
+    await bot.send_message(message.from_user.id, 'Phi is {}'.format(phi))
+    e = random.randrange(1, phi)
+
+    #Use Euclid's Algorithm to verify that e and phi(n) are comprime
+    g = gcd(e, phi)
+    while g != 1:
+        await bot.send_message(message.from_user.id, 'Random e is {}. GCD is {}.'.format(e, g))
+        e = random.randrange(1, phi)
+        g = gcd(e, phi)
+    await bot.send_message(message.from_user.id, 'Final e is {}. GCD is {}.'.format(e, g))
+    d = find_inverse(e, phi)
+    await bot.send_message(message.from_user.id, 'Inverse for e in terms of mod phi is {}'.format(d))
     
-    result = rsa_generate_keys(bitlen)
+    result = [(n, d), (n, e)]
     
     await bot.send_message(message.from_user.id, 'Private key is {}'.format(result[0]))
     await bot.send_message(message.from_user.id, 'Public key is {}'.format(result[1]))
@@ -307,8 +327,13 @@ async def process_help_command(message: types.Message):
     text = text[6:]
     s = text.split()
     a = int(s[0])
-    result = euler_function(a)
-    await bot.send_message(message.from_user.id, result)
+    n = a
+    num = 1 
+    for _ in range(2, n):
+        if gcd(n, _) == 1:
+            await bot.send_message(message.from_user.id, 'One more number is {}'.format(_))
+            num += 1
+    await bot.send_message(message.from_user.id, 'Total amount is {}'.format(num))
 
 @dp.message_handler(commands=['crt'], commands_prefix='!/')
 async def process_help_command(message: types.Message):
